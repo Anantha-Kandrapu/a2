@@ -71,7 +71,7 @@ public class App implements Runnable {
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         int MAX_EXECUTION_TIME = 300;
-        fileName = "ft70.atsp";
+        fileName = "ar9152.tsp";
         Future future = executor.submit(new App());
         try {
             future.get(MAX_EXECUTION_TIME, TimeUnit.SECONDS);
