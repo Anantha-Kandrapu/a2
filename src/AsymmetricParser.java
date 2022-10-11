@@ -1,27 +1,9 @@
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class AsymmetricParser {
     
-    public List<String> readFile(String fileName) {
-        List<String> readResult = new ArrayList<>();
-        try {
-            File myObj = new File(fileName);
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                readResult.add(data);
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        return readResult;
-    }
+    
 
     public int parseGetCities(List<String> readResult) {
         int cities = 0;

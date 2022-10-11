@@ -1,6 +1,9 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -18,23 +21,36 @@ public class App implements Runnable {
         System.out.println("Tour: " + x);
         Path = solver.getMinRoute();
         for (int city : Path) {
-            
-            //SHOW IN JPANEL ::::::: ::::::
+
+            // SHOW IN JPANEL ::::::: ::::::
             System.out.print(" city:" + city + " =>");
         }
         return null;
     }
 
-    public void decide() {
-
+    public static List<String> readFile(String fileName) {
+        List<String> readResult = new ArrayList<>();
+        try {
+            File myObj = new File(fileName);
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                readResult.add(data);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        return readResult;
     }
 
     @Override
     public void run() {
 
         if (fileName.contains("atsp")) {
+            List<String> readResult = readFile(fileName);
             AsymmetricParser asymmetricParser = new AsymmetricParser();
-            List<String> readResult = asymmetricParser.readFile(fileName);
             double[][] matrix = asymmetricParser.generateMatrix(readResult);
             tspTask(matrix);
         } else {
@@ -55,7 +71,7 @@ public class App implements Runnable {
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         int MAX_EXECUTION_TIME = 300;
-        fileName = "zi929.tsp";
+        fileName = "ft70.atsp";
         Future future = executor.submit(new App());
         try {
             future.get(MAX_EXECUTION_TIME, TimeUnit.SECONDS);

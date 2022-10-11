@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,32 +46,28 @@ public class SymmetricParser {
      * @throws IOException
      */
     public SymmetricParser(String fileName) throws IOException {
-        String filename = fileName;
         points = new HashMap<Integer, Point>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            String pattern = "(?m)^\\d+\\s\\d+\\.\\d+\\s\\d+\\.\\d+";
-            Pattern r = Pattern.compile(pattern);
+        String pattern = "(?m)^\\d+\\s\\d+\\.\\d+\\s\\d+\\.\\d+";
+        Pattern r = Pattern.compile(pattern);
 
-            String value = null;
-
-            while ((value = reader.readLine()) != null) {
-                Matcher m = r.matcher(value);
-                if (m.find()) {
-                    Point p = new Point(Integer.parseInt(value.split(" ")[0]), Double.parseDouble(value.split(" ")[1]),
-                            Double.parseDouble(value.split(" ")[2]));
-                    points.put(p.name, p);
-                }
+        List<String> readResult = App.readFile(fileName);
+        for (String value : readResult) {
+            Matcher m = r.matcher(value);
+            if (m.find()) {
+                Point p = new Point(Integer.parseInt(value.split(" ")[0]), Double.parseDouble(value.split(" ")[1]),
+                        Double.parseDouble(value.split(" ")[2]));
+                points.put(p.name, p);
             }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
         }
 
         // PointsEx ex = new PointsEx();
         // ex.setVisible(true);
         showPoints();
+
     }
-    public void showPoints(){
+
+    public void showPoints() {
         util x = new util(points);
         x.utilDraw();
     }
